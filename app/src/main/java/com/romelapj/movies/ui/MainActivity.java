@@ -1,53 +1,86 @@
 package com.romelapj.movies.ui;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.romelapj.movies.R;
+import com.romelapj.movies.adapters.Movie;
+import com.romelapj.movies.adapters.MovieViewAdapter;
 import com.romelapj.movies.databinding.ActivityMainBinding;
-import com.romelapj.movies.rest.RetrofitClientInstance;
 
 import java.util.List;
 
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieViewAdapter.ItemClickListener {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
     ActivityMainBinding binding;
+    MainViewModel viewModel = new MainViewModel();
+
+    MovieViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        initAdapter();
+        binding.spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                loadMovies(position);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-        compositeDisposable.add(RetrofitClientInstance.create().getPopularMovies()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<List<String>>() {
-                    @Override
-                    public void accept(List<String> strings) {
-                        show(strings);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) {
-                        Log.e("Main", throwable.getMessage());
-                    }
-                }));
+            }
+        });
     }
 
-    public void show(List<String> list) {
-        for (int i = 0; i < list.size(); i++) {
-            Log.e("Main", list.get(i));
-        }
+    private void initAdapter() {
+        binding.recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 3));
+        adapter = new MovieViewAdapter(this);
+        adapter.setClickListener(this);
+        binding.recyclerViewMovies.setAdapter(adapter);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        compositeDisposable.add(viewModel.actionsSubject.subscribe(new Consumer<List<Movie>>() {
+            @Override
+            public void accept(List<Movie> movies) {
+                adapter.setItems(movies);
+            }
+        }));
+        loadMovies(binding.spinnerSort.getSelectedItemPosition());
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        compositeDisposable.clear();
+    }
+
+    private void loadMovies(int position) {
+        if (position == 0) {
+            viewModel.populatePopularMovies();
+        } else {
+            viewModel.populateToRateMovies();
+        }
+    }
+
+    @Override
+    public void onItemClick(Movie movie) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("movie", movie);
+        startActivity(intent);
     }
 }

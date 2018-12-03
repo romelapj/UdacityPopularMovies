@@ -2,7 +2,7 @@
     <string name="app_name">UdacityPopularMovies</string>
 
     <string-array name="sort_arrays">
-    <item>Most Popular</item>
-    <item>Highest rated</item>
+        <item>Most Popular</item>
+        <item>Highest rated</item>
     </string-array>
 </resources>
