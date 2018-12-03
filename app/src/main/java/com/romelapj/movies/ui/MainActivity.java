@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.romelapj.movies.R;
-import com.romelapj.movies.adapters.Movie;
+import com.romelapj.movies.models.Movie;
 import com.romelapj.movies.adapters.MovieViewAdapter;
 import com.romelapj.movies.databinding.ActivityMainBinding;
 

@@ -9,14 +9,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.romelapj.movies.R;
+import com.romelapj.movies.models.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
 
-public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.ViewHolder> {
+import static com.romelapj.movies.models.Movie.BASE_IMAGE_URL;
 
-    private static String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.ViewHolder> {
 
     private List<Movie> mData = Collections.emptyList();
     private LayoutInflater mInflater;

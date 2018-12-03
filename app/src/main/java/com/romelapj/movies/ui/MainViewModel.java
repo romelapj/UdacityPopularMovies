@@ -2,7 +2,7 @@ package com.romelapj.movies.ui;
 
 import android.util.Log;
 
-import com.romelapj.movies.adapters.Movie;
+import com.romelapj.movies.models.Movie;
 import com.romelapj.movies.models.MoviesResponse;
 import com.romelapj.movies.rest.MoviesApi;
 import com.romelapj.movies.rest.RetrofitClientInstance;
