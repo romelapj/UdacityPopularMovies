@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">UdacityPopularMovies</string>
+
+    <string-array name="country_arrays">
+    <item>Most Popula</item>
+    <item>Highest rated</item>
+    </string-array>
 </resources>
