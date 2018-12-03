@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">UdacityPopularMovies</string>
 
-    <string-array name="country_arrays">
-    <item>Most Popula</item>
+    <string-array name="sort_arrays">
+    <item>Most Popular</item>
     <item>Highest rated</item>
     </string-array>
 </resources>
