@@ -9,6 +9,9 @@ public class Movie implements Parcelable {
 
     public static String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 
+    @SerializedName("id")
+    private String id;
+
     @SerializedName("title")
     private String title;
 
@@ -24,12 +27,57 @@ public class Movie implements Parcelable {
     @SerializedName("overview")
     private String overview;
 
-    public Movie(String title, String posterPath, String voteAverage, String releaseDate, String overview) {
+    public Movie(String id, String title, String posterPath, String voteAverage, String releaseDate, String overview) {
+        this.id = id;
         this.title = title;
         this.posterPath = posterPath;
         this.voteAverage = voteAverage;
         this.releaseDate = releaseDate;
         this.overview = overview;
+    }
+
+    protected Movie(Parcel in) {
+        id = in.readString();
+        title = in.readString();
+        posterPath = in.readString();
+        voteAverage = in.readString();
+        releaseDate = in.readString();
+        overview = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(title);
+        dest.writeString(posterPath);
+        dest.writeString(voteAverage);
+        dest.writeString(releaseDate);
+        dest.writeString(overview);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<Movie> CREATOR = new Creator<Movie>() {
+        @Override
+        public Movie createFromParcel(Parcel in) {
+            return new Movie(in);
+        }
+
+        @Override
+        public Movie[] newArray(int size) {
+            return new Movie[size];
+        }
+    };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getVoteAverage() {
@@ -72,37 +120,4 @@ public class Movie implements Parcelable {
         this.posterPath = posterPath;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.title);
-        dest.writeString(this.posterPath);
-        dest.writeString(this.voteAverage);
-        dest.writeString(this.releaseDate);
-        dest.writeString(this.overview);
-    }
-
-    protected Movie(Parcel in) {
-        this.title = in.readString();
-        this.posterPath = in.readString();
-        this.voteAverage = in.readString();
-        this.releaseDate = in.readString();
-        this.overview = in.readString();
-    }
-
-    public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
-        @Override
-        public Movie createFromParcel(Parcel source) {
-            return new Movie(source);
-        }
-
-        @Override
-        public Movie[] newArray(int size) {
-            return new Movie[size];
-        }
-    };
 }

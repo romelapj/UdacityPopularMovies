@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">UdacityPopularMovies</string>
+    <string name="generic_average">%1$s/10</string>
+    <string name="trailers">"Trailers"</string>
 
     <string-array name="sort_arrays">
         <item>Most Popular</item>

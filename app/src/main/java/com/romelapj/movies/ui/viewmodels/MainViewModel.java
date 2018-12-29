@@ -1,5 +1,6 @@
-package com.romelapj.movies.ui;
+package com.romelapj.movies.ui.viewmodels;
 
+import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
 import com.romelapj.movies.models.Movie;
@@ -15,12 +16,12 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-public class MainViewModel {
+public class MainViewModel extends ViewModel {
 
-    CompositeDisposable compositeDisposable = new CompositeDisposable();
-    MoviesApi moviesApi;
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private MoviesApi moviesApi;
 
-    PublishSubject<List<Movie>> actionsSubject = PublishSubject.create();
+    public PublishSubject<List<Movie>> actionsSubject = PublishSubject.create();
 
     public MainViewModel() {
         moviesApi = RetrofitClientInstance.create();
