@@ -1,9 +1,12 @@
 package com.romelapj.movies.ui.viewmodels;
 
-import android.arch.lifecycle.ViewModel;
+import android.app.Application;
+import android.arch.lifecycle.AndroidViewModel;
+import android.arch.lifecycle.LiveData;
 import android.util.Log;
 
-import com.romelapj.movies.models.Movie;
+import com.romelapj.movies.database.AppDatabase;
+import com.romelapj.movies.database.Movie;
 import com.romelapj.movies.models.MoviesResponse;
 import com.romelapj.movies.rest.MoviesApi;
 import com.romelapj.movies.rest.RetrofitClientInstance;
@@ -16,15 +19,24 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.PublishSubject;
 
-public class MainViewModel extends ViewModel {
+public class MainViewModel extends AndroidViewModel {
 
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private MoviesApi moviesApi;
 
     public PublishSubject<List<Movie>> actionsSubject = PublishSubject.create();
+    private LiveData<List<Movie>> favorites;
 
-    public MainViewModel() {
+
+    public MainViewModel(Application application) {
+        super(application);
         moviesApi = RetrofitClientInstance.create();
+        AppDatabase database = AppDatabase.getInstance(this.getApplication());
+        favorites = database.movieDao().loadAllMovie();
+    }
+
+    public LiveData<List<Movie>> getMovies() {
+        return favorites;
     }
 
     public void populatePopularMovies() {
@@ -60,6 +72,4 @@ public class MainViewModel extends ViewModel {
                     }
                 }));
     }
-
-
 }

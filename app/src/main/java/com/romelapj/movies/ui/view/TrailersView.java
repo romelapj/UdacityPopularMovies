@@ -9,7 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.romelapj.movies.R;
 import com.romelapj.movies.databinding.ItemBaseDetailBinding;
-import com.romelapj.movies.models.Movie;
+import com.romelapj.movies.database.Movie;
 import com.romelapj.movies.models.Trailer;
 import com.romelapj.movies.ui.adapters.GenericAdapterRecyclerView;
 import com.romelapj.movies.ui.adapters.GenericItemModel;
@@ -118,10 +118,6 @@ public class TrailersView extends RelativeLayout implements GenericAdapterRecycl
     @Override
     public void onItemLongClicked(GenericAdapterRecyclerView.ItemView itemView) {
 
-    }
-
-    public TrailersViewListener getListener() {
-        return listener;
     }
 
     public void setListener(TrailersViewListener listener) {

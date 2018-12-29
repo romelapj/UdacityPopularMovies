@@ -1,6 +1,7 @@
 package com.romelapj.movies.models;
 
 import com.google.gson.annotations.SerializedName;
+import com.romelapj.movies.database.Movie;
 
 import java.util.List;
 

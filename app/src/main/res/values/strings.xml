@@ -2,9 +2,13 @@
     <string name="app_name">UdacityPopularMovies</string>
     <string name="generic_average">%1$s/10</string>
     <string name="trailers">"Trailers"</string>
+    <string name="reviews">"Reviews"</string>
+    <string name="add_favorite">Mark as\nFavorite</string>
+    <string name="remove_favorite">Remove as\nFavorite</string>
 
     <string-array name="sort_arrays">
         <item>Most Popular</item>
         <item>Highest rated</item>
+        <item>Favorites</item>
     </string-array>
 </resources>

@@ -8,7 +8,7 @@
 
         <variable
             name="movie"
-            type="com.romelapj.movies.models.Movie" />
+            type="com.romelapj.movies.database.Movie" />
     </data>
 
     <RelativeLayout
@@ -62,15 +62,17 @@
             tools:text="7.1/10" />
 
         <TextView
+            android:id="@+id/textViewFavorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/textViewAverage"
             android:layout_toEndOf="@+id/imageViewMovie"
             android:background="@color/colorPrimaryDark"
+            android:foreground="?android:attr/selectableItemBackground"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:text="@string/add_favorite"
             android:textAllCaps="true"
-            android:text="Mark as\nFavorite"
             android:textColor="@android:color/white"
             android:textSize="12sp" />
 

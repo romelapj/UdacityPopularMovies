@@ -1,17 +1,20 @@
 package com.romelapj.movies.ui.activities;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Spinner;
 
 import com.romelapj.movies.R;
 import com.romelapj.movies.adapters.MovieViewAdapter;
-import com.romelapj.movies.databinding.ActivityMainBinding;
-import com.romelapj.movies.models.Movie;
+import com.romelapj.movies.database.Movie;
 import com.romelapj.movies.ui.viewmodels.MainViewModel;
 
 import java.util.List;
@@ -22,17 +25,22 @@ import io.reactivex.functions.Consumer;
 public class MainActivity extends AppCompatActivity implements MovieViewAdapter.ItemClickListener {
 
     CompositeDisposable compositeDisposable = new CompositeDisposable();
-    ActivityMainBinding binding;
-    MainViewModel viewModel = new MainViewModel();
+    MainViewModel viewModel;
 
     MovieViewAdapter adapter;
+
+    private Spinner spinnerSort;
+    private RecyclerView recyclerViewMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+        spinnerSort = findViewById(R.id.spinnerSort);
+        recyclerViewMovies = findViewById(R.id.recyclerViewMovies);
         initAdapter();
-        binding.spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        viewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        spinnerSort.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 loadMovies(position);
@@ -45,10 +53,10 @@ public class MainActivity extends AppCompatActivity implements MovieViewAdapter.
     }
 
     private void initAdapter() {
-        binding.recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 3));
+        recyclerViewMovies.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new MovieViewAdapter(this);
         adapter.setClickListener(this);
-        binding.recyclerViewMovies.setAdapter(adapter);
+        recyclerViewMovies.setAdapter(adapter);
     }
 
     @Override
@@ -60,7 +68,7 @@ public class MainActivity extends AppCompatActivity implements MovieViewAdapter.
                 adapter.setItems(movies);
             }
         }));
-        loadMovies(binding.spinnerSort.getSelectedItemPosition());
+        loadMovies(spinnerSort.getSelectedItemPosition());
     }
 
     @Override
@@ -70,11 +78,26 @@ public class MainActivity extends AppCompatActivity implements MovieViewAdapter.
     }
 
     private void loadMovies(int position) {
-        if (position == 0) {
-            viewModel.populatePopularMovies();
-        } else {
-            viewModel.populateToRateMovies();
+        switch (position) {
+            case 0:
+                viewModel.populatePopularMovies();
+                break;
+            case 1:
+                viewModel.populateToRateMovies();
+                break;
+            case 2:
+                populateFavoriteMovies();
+                break;
         }
+    }
+
+    private void populateFavoriteMovies() {
+        viewModel.getMovies().observe(this, new Observer<List<Movie>>() {
+            @Override
+            public void onChanged(@Nullable List<Movie> movies) {
+                adapter.setItems(movies);
+            }
+        });
     }
 
     @Override

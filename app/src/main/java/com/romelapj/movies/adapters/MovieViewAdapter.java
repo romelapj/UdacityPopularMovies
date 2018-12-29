@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.romelapj.movies.R;
-import com.romelapj.movies.models.Movie;
+import com.romelapj.movies.database.Movie;
 import com.squareup.picasso.Picasso;
 
 import java.util.Collections;
 import java.util.List;
 
-import static com.romelapj.movies.models.Movie.BASE_IMAGE_URL;
+import static com.romelapj.movies.database.Movie.BASE_IMAGE_URL;
 
 public class MovieViewAdapter extends RecyclerView.Adapter<MovieViewAdapter.ViewHolder> {
 

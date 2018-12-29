@@ -1,14 +1,20 @@
-package com.romelapj.movies.models;
+package com.romelapj.movies.database;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
 
+@Entity
 public class Movie implements Parcelable {
 
     public static String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 
+    @NonNull
+    @PrimaryKey
     @SerializedName("id")
     private String id;
 
