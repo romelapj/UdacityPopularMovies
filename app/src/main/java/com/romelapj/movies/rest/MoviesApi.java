@@ -11,16 +11,16 @@ import retrofit2.http.Path;
 
 public interface MoviesApi {
 
-    @GET("popular?api_key=906feb0183f849429a531024630562ab")
+    @GET("popular?api_key=KEY")
     Single<MoviesResponse> getPopularMovies();
 
-    @GET("top_rated?api_key=906feb0183f849429a531024630562ab")
+    @GET("top_rated?api_key=KEY")
     Single<MoviesResponse> getToRatedMovies();
 
-    @GET("{Id}/videos?api_key=906feb0183f849429a531024630562ab")
+    @GET("{Id}/videos?api_key=KEY")
     Single<TrailersResponse> getTrailers(@Path("Id") String id);
 
-    @GET("{Id}/reviews?api_key=906feb0183f849429a531024630562ab")
+    @GET("{Id}/reviews?api_key=KEY")
     Single<ReviewsResponse> getReviews(@Path("Id") String id);
 
 }
